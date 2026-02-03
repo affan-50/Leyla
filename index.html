@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leyla's Sanctuary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Dancing+Script:wght@700&family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        :root {
+            --silver: #E0E0E0;
+            --emerald: #50C878;
+            --midnight: #0D1117;
+            --bright-gold: #FFD700;
+        }
+
+        body, html {
+            margin: 0; padding: 0; min-height: 100%;
+            background: radial-gradient(circle at center, #1A237E 0%, #05070A 100%);
+            font-family: 'Montserrat', sans-serif;
+            color: white; overflow-x: hidden;
+        }
+
+        /* Floating Celestial Particles */
+        .star-particle {
+            position: fixed; color: var(--silver);
+            opacity: 0.4; pointer-events: none;
+            animation: floatUp linear infinite; z-index: 1;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        .main-wrapper {
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; padding: 40px 20px; position: relative; z-index: 10;
+        }
+
+        .container {
+            width: 100%; max-width: 450px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(30px); border-radius: 50px;
+            padding: 40px 25px; border: 1px solid rgba(80, 200, 120, 0.2);
+            text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        /* Countdown Style */
+        .eid-countdown {
+            background: rgba(80, 200, 120, 0.1);
+            border-radius: 15px; padding: 10px; margin-bottom: 20px;
+            font-size: 0.8rem; border: 1px solid rgba(80, 200, 120, 0.2);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        #timer { color: var(--bright-gold); font-weight: bold; }
+
+        .arabic-name {
+            font-family: 'Amiri', serif; font-size: 5rem;
+            margin: 0; color: white; text-shadow: 0 0 25px var(--emerald);
+            line-height: 1.1; direction: rtl;
+        }
+
+        /* THE SPECIAL VERSE - Radiant & Beautiful */
+        .quran-verse {
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem; 
+            color: var(--bright-gold);
+            margin: 25px 0; padding: 15px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 30px rgba(80, 200, 120, 0.4);
+            border-top: 1px solid rgba(255, 215, 0, 0.15);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+            direction: rtl;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+            to { text-shadow: 0 0 25px rgba(255, 215, 0, 0.9), 0 0 40px rgba(80, 200, 120, 0.5); }
+        }
+
+        .profile-img {
+            width: 150px; height: 150px;
+            border-radius: 50%; border: 3px solid var(--emerald);
+            box-shadow: 0 0 30px rgba(80, 200, 120, 0.4);
+            object-fit: cover; margin: 15px auto; display: block;
+            cursor: pointer; transition: 0.4s;
+        }
+
+        .ramadan-banner {
+            margin: 10px 0; font-weight: bold; font-size: 1.1rem;
+            color: var(--silver); text-transform: uppercase; letter-spacing: 3px;
+        }
+
+        .english-name {
+            font-family: 'Dancing Script', cursive; font-size: 3.2rem;
+            color: var(--emerald); margin: 5px 0;
+            text-shadow: 0 0 10px rgba(80, 200, 120, 0.3);
+        }
+
+        .telegram-btn {
+            display: inline-flex; background: linear-gradient(45deg, #0088cc, #229ED9);
+            color: white; width: 55px; height: 55px; border-radius: 50%;
+            align-items: center; justify-content: center; font-size: 1.5rem;
+            text-decoration: none; margin: 20px 0; transition: 0.3s;
+        }
+        .telegram-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px #229ED9; }
+
+        .secret-section {
+            padding: 20px; border-radius: 25px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1);
+        }
+        .pass-input {
+            background: transparent; border: none; border-bottom: 2px solid var(--emerald);
+            padding: 10px; color: white; text-align: center; width: 70%; margin-bottom: 15px; outline: none;
+        }
+
+        #secret-content {
+            display: none; margin-top: 15px; font-size: 0.95rem; line-height: 1.6;
+            animation: fadeIn 1s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div id="star-layer"></div>
+
+    <div class="main-wrapper">
+        <div class="container">
+            <div class="eid-countdown">
+                🌙 Time until Eid al-Fitr: <br><span id="timer">Loading...</span>
+            </div>
+
+            <div class="arabic-name">لَيْلَى</div>
+            
+            <div class="quran-verse">
+                وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ
+            </div>
+
+            <img src="leyla.jpg" alt="Leyla" class="profile-img" id="mainPhoto">
+            
+            <div class="ramadan-banner">Ramadan Kareem</div>
+            <div class="english-name">𝓛𝓮𝔂𝓵𝓪</div>
+
+            <a href="https://t.me/strong3505" target="_blank" class="telegram-btn">
+                <i class="fab fa-telegram-plane"></i>
+            </a>
+
+            <div class="secret-section">
+                <input type="password" id="passInput" class="pass-input" placeholder="Password: leyla">
+                <br>
+                <button onclick="checkPass()" style="background: var(--emerald); color: #000; padding: 10px 25px; border-radius: 10px; border:none; font-weight: bold; cursor:pointer;">Unlock Note</button>
+                <div id="secret-content">
+                    ✨ <b>A Special Note for Leyla:</b><br>
+                    May this Ramadan bring you closer to all that you desire. May your Lord bless you with such abundance that your heart finds perfect peace. You are truly special, Leyla. 🕯️⭐
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Eid Countdown (Target: March 20, 2026)
+        function updateEidTimer() {
+            const eidDate = new Date("March 20, 2026 00:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = eidDate - now;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            if (diff < 0) {
+                document.getElementById('timer').innerText = "Eid Mubarak!";
+            } else {
+                document.getElementById('timer').innerText = days + "d " + hours + "h " + minutes + "m";
+            }
+        }
+        setInterval(updateEidTimer, 60000);
+        updateEidTimer();
+
+        // Stars Background
+        function createStar() {
+            const star = document.createElement('i');
+            star.className = 'fas fa-star star-particle';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.fontSize = (Math.random() * 8 + 4) + 'px';
+            star.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            document.getElementById('star-layer').appendChild(star);
+            setTimeout(() => star.remove(), 15000);
+        }
+        setInterval(createStar, 1500);
+
+        // Click for Bliss
+        document.getElementById('mainPhoto').addEventListener('click', () => {
+            confetti({ particleCount: 100, spread: 70, colors: ['#50C878', '#FFD700', '#ffffff'] });
+        });
+
+        function checkPass() {
+            const pass = document.getElementById('passInput').value.toLowerCase();
+            if(pass === 'leyla') {
+                document.getElementById('secret-content').style.display = 'block';
+                document.getElementById('passInput').style.display = 'none';
+                event.target.style.display = 'none';
+                confetti({ particleCount: 150, spread: 60 });
+            }
+        }
+    </script>
+</body>
+</html>
