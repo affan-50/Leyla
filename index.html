@@ -10,30 +10,39 @@
     
     <style>
         :root {
-            --silver: #E0E0E0;
-            --emerald: #50C878;
-            --midnight: #0D1117;
-            --bright-gold: #FFD700;
+            --pink: #F8BBD0;
+            --hot-pink: #F48FB1;
+            --chocolate: #2D1B18;
+            --neon-green: #39FF14;
+            --dim-yellow: #FFD700;
         }
 
         body, html {
             margin: 0; padding: 0; min-height: 100%;
-            background: radial-gradient(circle at center, #1A237E 0%, #05070A 100%);
+            background: linear-gradient(135deg, #FFD1DC 0%, #3E2723 100%);
             font-family: 'Montserrat', sans-serif;
             color: white; overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* Floating Celestial Particles */
-        .star-particle {
-            position: fixed; color: var(--silver);
+        /* Floating Lanterns & Sparkles */
+        .lantern {
+            position: fixed; color: var(--dim-yellow);
             opacity: 0.4; pointer-events: none;
             animation: floatUp linear infinite; z-index: 1;
         }
         @keyframes floatUp {
-            0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+            0% { transform: translateY(110vh) translateX(0); opacity: 0; }
+            20% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) translateX(20px); opacity: 0; }
         }
+
+        .sparkle {
+            position: fixed; background: #fff; border-radius: 50%;
+            pointer-events: none; opacity: 0.6;
+            animation: fall linear infinite; z-index: 1;
+        }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
 
         .main-wrapper {
             display: flex; justify-content: center; align-items: center;
@@ -41,171 +50,282 @@
         }
 
         .container {
-            width: 100%; max-width: 450px;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(30px); border-radius: 50px;
-            padding: 40px 25px; border: 1px solid rgba(80, 200, 120, 0.2);
-            text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            width: 100%; max-width: 480px;
+            background: rgba(45, 27, 24, 0.85);
+            backdrop-filter: blur(25px); border-radius: 50px;
+            padding: 45px 30px; border: 1px solid rgba(248, 187, 208, 0.3);
+            text-align: center; box-shadow: 0 40px 100px rgba(0,0,0,0.8);
             position: relative;
         }
 
-        /* Countdown Style */
-        .eid-countdown {
-            background: rgba(80, 200, 120, 0.1);
-            border-radius: 15px; padding: 10px; margin-bottom: 20px;
-            font-size: 0.8rem; border: 1px solid rgba(80, 200, 120, 0.2);
-            text-transform: uppercase; letter-spacing: 1px;
-        }
-        #timer { color: var(--bright-gold); font-weight: bold; }
-
         .arabic-name {
-            font-family: 'Amiri', serif; font-size: 5rem;
-            margin: 0; color: white; text-shadow: 0 0 25px var(--emerald);
+            font-family: 'Amiri', serif; font-size: clamp(3.5rem, 12vw, 5.5rem);
+            margin: 0; color: white; text-shadow: 0 0 20px var(--hot-pink);
             line-height: 1.1; direction: rtl;
         }
 
-        /* THE SPECIAL VERSE - Radiant & Beautiful */
-        .quran-verse {
-            font-family: 'Amiri', serif;
-            font-size: 1.8rem; 
-            color: var(--bright-gold);
-            margin: 25px 0; padding: 15px;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 30px rgba(80, 200, 120, 0.4);
-            border-top: 1px solid rgba(255, 215, 0, 0.15);
-            border-bottom: 1px solid rgba(255, 215, 0, 0.15);
-            direction: rtl;
-            animation: glow 3s ease-in-out infinite alternate;
+        .flower-container { margin: 15px 0; display: flex; justify-content: center; position: relative; }
+        .ramadan-icon { 
+            position: absolute; font-size: 1.5rem; color: var(--dim-yellow);
+            animation: bounce 3s ease-in-out infinite alternate;
+            text-shadow: 0 0 15px var(--dim-yellow);
         }
-        @keyframes glow {
-            from { text-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
-            to { text-shadow: 0 0 25px rgba(255, 215, 0, 0.9), 0 0 40px rgba(80, 200, 120, 0.5); }
+        .left-moon { left: 10%; top: 0; }
+        .right-star { right: 10%; bottom: 0; color: var(--neon-green); }
+
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-15px); } }
+
+        .flower { position: relative; width: 70px; height: 70px; animation: bloom 4s ease-in-out forwards; }
+        .petal {
+            position: absolute; width: 35px; height: 35px;
+            background: var(--hot-pink); border-radius: 50% 50% 0 50%;
+            transform-origin: bottom right; box-shadow: 0 0 15px rgba(244, 143, 177, 0.6);
         }
+        @keyframes bloom { 0% { transform: scale(0) rotate(0deg); opacity: 0; } 100% { transform: scale(1.2) rotate(360deg); opacity: 1; } }
+        .petal:nth-child(1) { transform: rotate(0deg); } .petal:nth-child(2) { transform: rotate(72deg); } 
+        .petal:nth-child(3) { transform: rotate(144deg); } .petal:nth-child(4) { transform: rotate(216deg); } 
+        .petal:nth-child(5) { transform: rotate(288deg); }
 
         .profile-img {
             width: 150px; height: 150px;
-            border-radius: 50%; border: 3px solid var(--emerald);
-            box-shadow: 0 0 30px rgba(80, 200, 120, 0.4);
+            border-radius: 50%; border: 4px solid var(--pink);
+            box-shadow: 0 0 30px var(--hot-pink);
             object-fit: cover; margin: 15px auto; display: block;
-            cursor: pointer; transition: 0.4s;
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
         }
+        .profile-img:hover { transform: scale(1.1) rotate(3deg); }
 
         .ramadan-banner {
-            margin: 10px 0; font-weight: bold; font-size: 1.1rem;
-            color: var(--silver); text-transform: uppercase; letter-spacing: 3px;
+            margin: 20px 0; font-weight: bold; font-size: 1.4rem;
+            background: linear-gradient(to right, #4CAF50, #FFD700, #4CAF50);
+            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite, pulseGlow 2s ease-in-out infinite alternate;
         }
+        @keyframes pulseGlow {
+            from { text-shadow: 0 0 5px #fff, 0 0 10px var(--hot-pink); }
+            to { text-shadow: 0 0 15px #fff, 0 0 25px var(--dim-yellow); }
+        }
+        @keyframes shine { to { background-position: 200% center; } }
 
         .english-name {
-            font-family: 'Dancing Script', cursive; font-size: 3.2rem;
-            color: var(--emerald); margin: 5px 0;
-            text-shadow: 0 0 10px rgba(80, 200, 120, 0.3);
+            font-family: 'Dancing Script', cursive; font-size: 3.5rem;
+            color: var(--pink); margin: 5px 0;
         }
+
+        /* Simplified Countdown Grid */
+        .stats-grid { display: flex; justify-content: center; gap: 12px; margin: 25px 0; }
+        .stat-card {
+            min-width: 140px; background: rgba(248, 187, 208, 0.1);
+            padding: 15px 5px; border-radius: 20px; border: 1px solid rgba(248, 187, 208, 0.3);
+            transition: 0.3s;
+        }
+        .stat-value { font-size: 2.2rem; font-weight: 700; color: var(--dim-yellow); display: block; }
+        .stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--pink); }
+
+        .sunnah-tip {
+            background: rgba(57, 255, 20, 0.1); border: 1px solid var(--neon-green);
+            padding: 12px; border-radius: 15px; margin-bottom: 20px; font-size: 0.85rem; color: #fff;
+        }
+
+        .quran-container {
+            background: rgba(0, 0, 0, 0.25); border-radius: 30px;
+            padding: 20px; margin: 25px 0; border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .quran-header { font-size: 1.1rem; color: var(--pink); margin-bottom: 15px; font-weight: bold; }
+        .quran-scroll { max-height: 220px; overflow-y: auto; padding-right: 5px; }
+        .quran-scroll::-webkit-scrollbar { width: 4px; }
+        .quran-scroll::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 10px; }
+
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { font-size: 0.7rem; text-transform: uppercase; color: var(--hot-pink); padding-bottom: 10px; }
+        td { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; }
+        .check-btn { background: none; border: none; color: var(--neon-green); cursor: pointer; font-size: 1.2rem; }
+
+        .search-container { display: flex; gap: 10px; margin: 20px 0; }
+        .search-bar {
+            flex: 1; background: rgba(0,0,0,0.2); border: 1px solid var(--pink);
+            padding: 12px; border-radius: 15px; color: white; outline: none;
+        }
+        .search-btn { background: var(--pink); color: var(--chocolate); border: none; border-radius: 15px; padding: 0 15px; cursor: pointer; }
 
         .telegram-btn {
-            display: inline-flex; background: linear-gradient(45deg, #0088cc, #229ED9);
-            color: white; width: 55px; height: 55px; border-radius: 50%;
+            display: inline-flex; background: var(--neon-green); color: #000;
+            width: 55px; height: 55px; border-radius: 50%;
             align-items: center; justify-content: center; font-size: 1.5rem;
-            text-decoration: none; margin: 20px 0; transition: 0.3s;
+            text-decoration: none; margin-bottom: 25px; transition: 0.3s;
         }
-        .telegram-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px #229ED9; }
 
         .secret-section {
-            padding: 20px; border-radius: 25px;
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px; border-radius: 30px;
+            background: rgba(255, 255, 255, 0.03); border: 1px dashed var(--pink);
         }
         .pass-input {
-            background: transparent; border: none; border-bottom: 2px solid var(--emerald);
-            padding: 10px; color: white; text-align: center; width: 70%; margin-bottom: 15px; outline: none;
+            background: rgba(255, 255, 255, 0.08); border: 1px solid var(--pink);
+            padding: 12px; border-radius: 12px; color: white; text-align: center; width: 80%; margin-bottom: 10px;
         }
-
-        #secret-content {
-            display: none; margin-top: 15px; font-size: 0.95rem; line-height: 1.6;
-            animation: fadeIn 1s ease;
-        }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        #secret-content { display: none; font-size: 0.95rem; line-height: 1.6; text-align: left; animation: fadeIn 1s; }
     </style>
 </head>
 <body>
 
-    <div id="star-layer"></div>
+    <div id="lantern-layer"></div>
 
     <div class="main-wrapper">
         <div class="container">
-            <div class="eid-countdown">
-                🌙 Time until Eid al-Fitr: <br><span id="timer">Loading...</span>
-            </div>
-
-            <div class="arabic-name">لَيْلَى</div>
+            <div class="arabic-name">لَــــــــــــيْـلَـىٰ</div>
             
-            <div class="quran-verse">
-                وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ
+            <div class="flower-container">
+                <i class="fas fa-moon ramadan-icon left-moon"></i>
+                <div class="flower">
+                    <div class="petal"></div><div class="petal"></div><div class="petal"></div><div class="petal ="></div><div class="petal"></div>
+                </div>
+                <i class="fas fa-star ramadan-icon right-star"></i>
             </div>
 
             <img src="leyla.jpg" alt="Leyla" class="profile-img" id="mainPhoto">
             
-            <div class="ramadan-banner">Ramadan Kareem</div>
+            <div class="ramadan-banner">🌙 𝓡𝓪𝓶𝓪𝓭𝓪𝓷 𝓜𝓾𝓫𝓪𝓻𝓪𝓴 ✨</div>
             <div class="english-name">𝓛𝓮𝔂𝓵𝓪</div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span id="ramadan-counter" class="stat-value">--</span>
+                    <span id="counter-label" class="stat-label">Loading...</span>
+                </div>
+            </div>
+
+            <div class="sunnah-tip">
+                <i class="fas fa-heart"></i> <b>Daily Reminder:</b> Smile, it's Sunnah!
+            </div>
+
+            <div class="quran-container">
+                <div class="quran-header">📖 1x Khatm Plan (1 Juz Daily)</div>
+                <div class="quran-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Goal</th>
+                                <th>Done</th>
+                            </tr>
+                        </thead>
+                        <tbody id="quran-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="search-container">
+                <input type="text" id="musicSearch" class="search-bar" placeholder="Nasheed for Leyla...">
+                <button class="search-btn" onclick="searchMusic()"><i class="fas fa-search"></i></button>
+            </div>
 
             <a href="https://t.me/strong3505" target="_blank" class="telegram-btn">
                 <i class="fab fa-telegram-plane"></i>
             </a>
 
             <div class="secret-section">
+                <div id="lock-title" style="margin-bottom: 12px; font-weight: bold; color: var(--pink);">🔒 A Surprise for Leyla</div>
                 <input type="password" id="passInput" class="pass-input" placeholder="Password: leyla">
                 <br>
-                <button onclick="checkPass()" style="background: var(--emerald); color: #000; padding: 10px 25px; border-radius: 10px; border:none; font-weight: bold; cursor:pointer;">Unlock Note</button>
+                <button onclick="checkPass()" style="background: var(--pink); color: var(--chocolate); padding: 10px 25px; border-radius: 12px; border:none; font-weight: bold; cursor:pointer;">Unlock</button>
+                
                 <div id="secret-content">
-                    ✨ <b>A Special Note for Leyla:</b><br>
-                    May this Ramadan bring you closer to all that you desire. May your Lord bless you with such abundance that your heart finds perfect peace. You are truly special, Leyla. 🕯️⭐
+                    ✨ 𝙳𝚎𝚊𝚛𝚎𝚜𝚝 𝙻𝚎𝚢𝚕𝚊 ✨<br><br>
+                    𝙼𝚊𝚢 𝚝𝚑𝚒𝚜 𝚁𝚊𝚖𝚊𝚍𝚊𝚗 𝚋𝚕𝚘𝚘𝚖 𝚠𝚒𝚝𝚑 𝚋𝚕𝚎𝚜𝚜𝚒𝚗𝚐𝚜 𝚒𝚗 𝚢𝚘𝚞𝚛 𝚑𝚎𝚊𝚛𝚝. 𝚈𝚘𝚞𝚛 𝚓𝚘𝚞𝚛𝚗𝚎𝚢 𝚝𝚑𝚛𝚘𝚞𝚐𝚑 𝚝𝚑𝚎 𝚀𝚞𝚛𝚊𝚗 𝚒𝚜 𝚊 𝚕𝚒𝚐𝚑𝚝 𝚝𝚑𝚊𝚝 𝚗𝚎𝚟𝚎𝚛 𝚏𝚊𝚍𝚎𝚜. 🌙<br><br>
+                    𝚁𝚎𝚖𝚎𝚖𝚋𝚎𝚛: "𝚂𝚘 𝚛𝚎𝚖𝚎𝚖𝚋𝚎𝚛 𝙼𝚎; 𝙸 𝚠𝚒𝚕𝚕 𝚛𝚎𝚖𝚎𝚖𝚋𝚎𝚛 𝚢𝚘𝚞." (𝟸:𝟷𝟻𝟸)<br><br>
+                    𝚂𝚝𝚊𝚢 𝚜𝚝𝚛𝚘𝚗𝚐, 𝚂𝚑𝚒𝚗𝚎 𝚋𝚛𝚒𝚐𝚑𝚝! 🍫🎀
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Eid Countdown (Target: March 20, 2026)
-        function updateEidTimer() {
-            const eidDate = new Date("March 20, 2026 00:00:00").getTime();
-            const now = new Date().getTime();
-            const diff = eidDate - now;
+        const ramadanStartDate = new Date("February 18, 2026 00:00:00").getTime();
 
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        function updateRamadanCounter() {
+            const now = new Date().getTime();
+            const diff = ramadanStartDate - now;
+            const daysToRamadan = Math.ceil(diff / (1000 * 60 * 60 * 24));
             
-            if (diff < 0) {
-                document.getElementById('timer').innerText = "Eid Mubarak!";
+            const valueEl = document.getElementById('ramadan-counter');
+            const labelEl = document.getElementById('counter-label');
+
+            if (daysToRamadan > 0) {
+                // Before Ramadan: Show days left
+                valueEl.innerText = daysToRamadan;
+                labelEl.innerText = "Days Until Ramadan";
             } else {
-                document.getElementById('timer').innerText = days + "d " + hours + "h " + minutes + "m";
+                // During Ramadan: Show current day
+                const dayOfRamadan = Math.abs(daysToRamadan) + 1;
+                if (dayOfRamadan <= 30) {
+                    valueEl.innerText = dayOfRamadan;
+                    labelEl.innerText = "Ramadan Day";
+                } else {
+                    valueEl.innerText = "Eid";
+                    labelEl.innerText = "Mubarak!";
+                }
             }
         }
-        setInterval(updateEidTimer, 60000);
-        updateEidTimer();
+        updateRamadanCounter();
 
-        // Stars Background
-        function createStar() {
-            const star = document.createElement('i');
-            star.className = 'fas fa-star star-particle';
-            star.style.left = Math.random() * 100 + 'vw';
-            star.style.fontSize = (Math.random() * 8 + 4) + 'px';
-            star.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            document.getElementById('star-layer').appendChild(star);
-            setTimeout(() => star.remove(), 15000);
+        const quranBody = document.getElementById('quran-body');
+        for (let d = 1; d <= 30; d++) {
+            const row = `<tr>
+                <td>Day ${d}</td>
+                <td>Juz ${d}</td>
+                <td><button class="check-btn" onclick="toggleCheck(this)"><i class="far fa-circle"></i></button></td>
+            </tr>`;
+            quranBody.innerHTML += row;
         }
-        setInterval(createStar, 1500);
 
-        // Click for Bliss
-        document.getElementById('mainPhoto').addEventListener('click', () => {
-            confetti({ particleCount: 100, spread: 70, colors: ['#50C878', '#FFD700', '#ffffff'] });
-        });
+        function toggleCheck(btn) {
+            btn.innerHTML = btn.innerHTML.includes('far fa-circle') 
+                ? '<i class="fas fa-check-circle"></i>' 
+                : '<i class="far fa-circle"></i>';
+            if(btn.innerHTML.includes('check-circle')) {
+                confetti({ particleCount: 15, spread: 20, origin: { y: 0.8 }, colors: ['#39FF14'] });
+            }
+        }
+
+        function createLantern() {
+            const lantern = document.createElement('i');
+            lantern.className = 'fas fa-lightbulb lantern';
+            lantern.style.left = Math.random() * 100 + 'vw';
+            lantern.style.fontSize = Math.random() * 10 + 12 + 'px';
+            lantern.style.animationDuration = Math.random() * 8 + 12 + 's';
+            document.getElementById('lantern-layer').appendChild(lantern);
+            setTimeout(() => { lantern.remove(); }, 20000);
+        }
+        setInterval(createLantern, 4000);
+
+        function createSparkle() {
+            if (document.hidden) return;
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.top = '-2vh';
+            sparkle.style.width = Math.random() * 4 + 2 + 'px';
+            sparkle.style.animationDuration = Math.random() * 3 + 4 + 's';
+            document.body.appendChild(sparkle);
+            setTimeout(() => { sparkle.remove(); }, 7000);
+        }
+        setInterval(createSparkle, 300);
+
+        function searchMusic() {
+            const query = document.getElementById('musicSearch').value;
+            if(query) window.open("https://www.youtube.com/results?search_query=" + encodeURIComponent(query), "_blank");
+        }
 
         function checkPass() {
             const pass = document.getElementById('passInput').value.toLowerCase();
-            if(pass === 'leyla') {
+            if(['leyla', 'leila', '123'].includes(pass)) {
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
                 document.getElementById('secret-content').style.display = 'block';
                 document.getElementById('passInput').style.display = 'none';
+                document.getElementById('lock-title').style.display = 'none';
                 event.target.style.display = 'none';
-                confetti({ particleCount: 150, spread: 60 });
-            }
+            } else { alert("Hint: It's your name!"); }
         }
     </script>
 </body>
