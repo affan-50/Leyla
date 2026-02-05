@@ -119,8 +119,8 @@
             <img src="leyla.jpg" alt="Leyla" class="profile-img">
 
             <div class="stat-card">
-                <span class="stat-value">13</span>
-                <span class="stat-label">Days Until Ramadan</span>
+                <span id="ramadan-countdown" class="stat-value">--</span>
+                <span id="ramadan-label" class="stat-label">Days Until Ramadan</span>
             </div>
 
             <div class="quran-container">
@@ -150,6 +150,29 @@
     </div>
 
     <script>
+        // Real-time Ramadan Countdown Logic
+        function updateRamadanCountdown() {
+            // Target date: Feb 18, 2026
+            const ramadanDate = new Date("February 18, 2026 00:00:00").getTime();
+            const now = new Date().getTime();
+            const distance = ramadanDate - now;
+
+            const days = Math.ceil(distance / (1000 * 60 * 60 * 24));
+            const display = document.getElementById("ramadan-countdown");
+            const label = document.getElementById("ramadan-label");
+            
+            if (days > 0) {
+                display.innerHTML = days;
+            } else if (days === 0) {
+                display.innerHTML = "0";
+                label.innerHTML = "Ramadan Mubarak!";
+            } else {
+                display.innerHTML = "🌙";
+                label.innerHTML = "Ramadan has begun!";
+            }
+        }
+        updateRamadanCountdown();
+
         // Background sparkles
         function createSparkle() {
             const s = document.createElement('div');
