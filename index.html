@@ -56,13 +56,13 @@
             line-height: 1; direction: rtl;
         }
 
-        /* Slow Motion Flower */
+        /* The Beautiful Slow Motion Flower */
         .flower-divider {
             font-size: 2.8rem;
-            margin: 20px 0 10px 0;
+            margin: 20px 0;
             display: inline-block;
             filter: drop-shadow(0 0 15px var(--pink));
-            animation: slowFloat 5s ease-in-out infinite, slowRotate 15s linear infinite;
+            animation: slowFloat 6s ease-in-out infinite, slowRotate 15s linear infinite;
         }
 
         @keyframes slowFloat {
@@ -75,30 +75,30 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Audio Control Button */
-        .audio-control {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--hot-pink);
-            color: var(--pink);
-            padding: 8px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            margin-bottom: 20px;
-            transition: 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .audio-control:hover { background: var(--hot-pink); color: white; }
-
-        .profile-container { position: relative; width: 150px; margin: 0 auto 20px auto; }
+        .profile-container { position: relative; width: 150px; margin: 0 auto 10px auto; }
         .profile-img {
             width: 140px; height: 140px; border-radius: 50%;
             border: 4px solid var(--hot-pink); object-fit: cover;
             box-shadow: 0 0 20px rgba(244, 143, 177, 0.3);
-            transition: 0.5s ease;
         }
+
+        /* Custom Music Player UI */
+        .ramadan-player {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid var(--electric-blue);
+            padding: 12px 25px;
+            border-radius: 50px;
+            margin: 15px auto 25px auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: 0.4s;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+        }
+        .ramadan-player:hover { background: rgba(0, 210, 255, 0.15); transform: scale(1.05); }
+        .play-btn-icon { color: var(--neon-green); font-size: 1.3rem; }
+        .player-text { font-size: 0.85rem; font-weight: 600; color: white; letter-spacing: 0.5px; }
 
         .promise-verse {
             margin: 20px 0; padding: 25px;
@@ -110,7 +110,6 @@
             background: linear-gradient(to right, var(--electric-blue), var(--neon-green));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .ayah-sub { font-size: 0.85rem; color: var(--soft-white); opacity: 0.7; margin-top: 10px; font-style: italic; }
 
         .stat-card {
             background: linear-gradient(45deg, rgba(0, 210, 255, 0.05), rgba(57, 255, 20, 0.05));
@@ -118,7 +117,7 @@
             margin: 25px 0;
         }
         .stat-value { font-size: 3.5rem; font-weight: 800; color: var(--neon-green); display: block; line-height: 1; }
-        .stat-label { font-size: 0.8rem; letter-spacing: 3px; color: var(--electric-blue); text-transform: uppercase; margin-top: 5px; display: block; }
+        .stat-label { font-size: 0.8rem; letter-spacing: 3px; color: var(--electric-blue); text-transform: uppercase; }
 
         .quran-container {
             background: rgba(0, 0, 0, 0.3); border-radius: 30px;
@@ -128,24 +127,21 @@
         .quran-scroll::-webkit-scrollbar { width: 4px; }
         .quran-scroll::-webkit-scrollbar-thumb { background: var(--electric-blue); border-radius: 10px; }
 
-        .btn-action {
-            width: 100%; padding: 15px; border-radius: 20px; border: none; font-weight: bold;
-            cursor: pointer; transition: 0.3s; margin-bottom: 15px; text-decoration: none; display: block;
+        .btn-tg {
+            width: 100%; padding: 15px; border-radius: 20px; background: var(--electric-blue);
+            color: var(--chocolate); font-weight: bold; text-decoration: none; display: block; margin-bottom: 20px;
         }
-        .btn-yt { background: var(--hot-pink); color: white; }
-        .btn-tg { background: var(--electric-blue); color: var(--chocolate); }
 
         .secret-section { padding: 20px; border-radius: 30px; background: rgba(0,0,0,0.2); border: 1px dashed rgba(255,255,255,0.1); }
-        #secret-content { display: none; margin-top: 15px; font-size: 1rem; color: var(--soft-white); line-height: 1.6; }
     </style>
 </head>
 <body>
 
     <div id="stars-container"></div>
 
-    <audio id="ramadanNasheed" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        </audio>
+    <audio id="ramadanMusic" loop>
+        <source src="ramadan.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="main-wrapper">
         <div class="container">
@@ -153,17 +149,17 @@
 
             <div><span class="flower-divider">🌸</span></div>
 
-            <button class="audio-control" onclick="toggleAudio()" id="audioBtn">
-                <i class="fas fa-play"></i> Play Ramadan Nasheed
-            </button>
-
             <div class="profile-container">
                 <img src="leyla.jpg" alt="Leyla" class="profile-img">
             </div>
 
+            <div class="ramadan-player" onclick="toggleMusic()" id="playerUI">
+                <i class="fas fa-play play-btn-icon" id="playIcon"></i>
+                <span class="player-text">Maher Zain - Ramadan</span>
+            </div>
+
             <div class="promise-verse">
                 <div class="ayah-text">وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ</div>
-                <div class="ayah-sub">"And your Lord is going to give you, and you will be satisfied."</div>
             </div>
 
             <div class="stat-card">
@@ -178,36 +174,35 @@
                 </div>
             </div>
 
-            <a href="https://t.me/strong3505" target="_blank" class="btn-action btn-tg">
+            <a href="https://t.me/strong3505" target="_blank" class="btn-tg">
                 <i class="fab fa-telegram-plane"></i> Contact on Telegram
             </a>
 
             <div class="secret-section">
-                <input type="password" id="passInput" style="background:rgba(255,255,255,0.05); border: 1px solid var(--electric-blue); color:white; padding:10px; border-radius:15px; text-align:center; width: 80%;" placeholder="Enter Secret Key">
-                <button onclick="checkPass()" style="background:var(--neon-green); border:none; padding:12px; border-radius:15px; font-weight:bold; cursor:pointer; margin-top:10px; width: 80%;">Reveal Message</button>
-                <div id="secret-content">
-                    ✨ "Leyla, may this Ramadan be a month of healing and light for you. Your sanctuary is always here for peace. 🧕." ✨
+                <input type="password" id="passInput" style="background:rgba(255,255,255,0.05); border: 1px solid var(--electric-blue); color:white; padding:10px; border-radius:15px; text-align:center; width: 80%;" placeholder="Secret Key">
+                <button onclick="checkPass()" style="background:var(--neon-green); border:none; padding:12px; border-radius:15px; font-weight:bold; cursor:pointer; margin-top:10px; width: 80%;">Unlock</button>
+                <div id="secret-content" style="display:none; margin-top:15px;">
+                    ✨ "Leyla, may your Ramadan be full of peace and light. 🧕." ✨
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Audio Toggle Logic
-        const music = document.getElementById("ramadanNasheed");
-        const audioBtn = document.getElementById("audioBtn");
+        const audio = document.getElementById("ramadanMusic");
+        const icon = document.getElementById("playIcon");
 
-        function toggleAudio() {
-            if (music.paused) {
-                music.play();
-                audioBtn.innerHTML = '<i class="fas fa-pause"></i> Pause Nasheed';
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                icon.className = "fas fa-pause play-btn-icon";
             } else {
-                music.pause();
-                audioBtn.innerHTML = '<i class="fas fa-play"></i> Play Ramadan Nasheed';
+                audio.pause();
+                icon.className = "fas fa-play play-btn-icon";
             }
         }
 
-        // Star Background
+        // Stars animation
         function createSparkle() {
             const container = document.getElementById('stars-container');
             const s = document.createElement('div');
@@ -235,7 +230,7 @@
         function toggleIcon(icon) {
             icon.className = 'fas fa-check-circle';
             icon.style.color = '#39FF14';
-            confetti({ particleCount: 30, spread: 50, colors: ['#00D2FF', '#39FF14'] });
+            confetti({ particleCount: 30, spread: 50 });
         }
 
         function checkPass() {
