@@ -56,7 +56,6 @@
             line-height: 1; direction: rtl;
         }
 
-        /* The Beautiful Slow Motion Flower */
         .flower-divider {
             font-size: 2.8rem;
             margin: 20px 0;
@@ -82,7 +81,6 @@
             box-shadow: 0 0 20px rgba(244, 143, 177, 0.3);
         }
 
-        /* Custom Music Player UI */
         .ramadan-player {
             background: rgba(255, 255, 255, 0.07);
             border: 1px solid var(--electric-blue);
@@ -130,6 +128,7 @@
         .btn-tg {
             width: 100%; padding: 15px; border-radius: 20px; background: var(--electric-blue);
             color: var(--chocolate); font-weight: bold; text-decoration: none; display: block; margin-bottom: 20px;
+            box-sizing: border-box;
         }
 
         .secret-section { padding: 20px; border-radius: 30px; background: rgba(0,0,0,0.2); border: 1px dashed rgba(255,255,255,0.1); }
@@ -163,8 +162,8 @@
             </div>
 
             <div class="stat-card">
-                <span class="stat-value">11</span>
-                <span class="stat-label">Days Until Ramadan</span>
+                <span id="days-count" class="stat-value">9</span>
+                <span id="stat-label" class="stat-label">Days Until Ramadan</span>
             </div>
 
             <div class="quran-container">
@@ -202,7 +201,37 @@
             }
         }
 
-        // Stars animation
+        // Logic to toggle between Countdown (Before) and Day Count (During)
+        function updateRamadanStatus() {
+            const ramadanStart = new Date("February 17, 2026 00:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = ramadanStart - now;
+            
+            const display = document.getElementById("days-count");
+            const label = document.getElementById("stat-label");
+
+            if (diff > 0) {
+                // BEFORE RAMADAN: Countdown
+                let daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
+                display.innerText = daysLeft;
+                label.innerText = "Days Until Ramadan";
+            } else {
+                // DURING RAMADAN: Count each day
+                // Calculate which day of Ramadan it is (Day 1, Day 2, etc.)
+                let dayOfRamadan = Math.floor(Math.abs(diff) / (1000 * 60 * 60 * 24)) + 1;
+                
+                if (dayOfRamadan <= 30) {
+                    display.innerText = dayOfRamadan;
+                    label.innerText = "Current Day of Ramadan";
+                } else {
+                    display.innerText = "🌙";
+                    label.innerText = "Eid Mubarak!";
+                }
+            }
+        }
+        updateRamadanStatus();
+
+        // Stars Background
         function createSparkle() {
             const container = document.getElementById('stars-container');
             const s = document.createElement('div');
